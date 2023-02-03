@@ -149,6 +149,34 @@ def saveEventDetails(event):
     os.rename('tempevents.data', 'events.data')
 
 # Display All Event Details
+def getEventsSummary():
+    filetickets = pathlib.Path("tickets.data")
+    if filetickets.exists():
+        infiletickets = open('tickets.data', 'rb')
+        ticketdetails = pickle.load(infiletickets)
+
+
+    fileEvents = pathlib.Path("events.data")
+    if fileEvents.exists ():
+        infileEvents = open('events.data','rb')
+        eventdetails = pickle.load(infileEvents)
+
+
+        print("---------------REPORTS---------------------")
+        for event in eventdetails :
+            print("\n\nEvent Name : " + event.eventname + " | Total Seats : " + event.eventTotalAvaibleSeat + " \n")
+            for ticket in ticketdetails:
+                if event.eventcode == ticket.event:
+                    print(ticket.reference, "\t", ticket.name, "\t", ticket.email)
+
+        infileEvents.close()
+        infiletickets.close()
+
+        print("--------------------------------------------------")
+        input('Press Enter To Main Menu')
+    else :
+        print("NO EVENTS RECORDS FOUND")
+
 
 def getEventsDetails():
     file = pathlib.Path("events.data")
