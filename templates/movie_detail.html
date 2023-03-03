@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+{% block style %}
+     <style>
+     body{
+  background: linear-gradient(45deg ,red ,blue);
+         color: white;
+     }
+     a{
+         color:white;
+     }
+     button{
+         width: 100%;
+     }
+     .btn btn-primary{
+         width: 200%;
+     }
+       h1 {
+        font-size: 2.5em;
+        color: antiquewhite;
+        text-align: center;
+        text-transform: uppercase;
+        margin-top: 2em;
+        margin-bottom: 1em;
+      }
+       .wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+}
+
+
+.red-tri {
+    width: 350px;
+    height: 700px;
+    background-color: rgb(255, 0, 0);
+    opacity: 35%;
+    transform-origin: center;
+    animation: 15s linear infinite turn2;
+    position: absolute;
+    top: 0;
+    left: 25%;
+    z-index: -1;
+}
+.blue-tri {
+    width: 350px;
+    height: 700px;
+    background-color: rgb(0, 0, 133);
+    opacity: 35%;
+    transform-origin: center;
+    animation: 15s linear infinite turn2;
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    z-index: -1;
+}
+.yellow-tri {
+    width: 350px;
+    height: 700px;
+    background-color: rgb(255, 255, 0);
+    opacity: 35%;
+    transform-origin: center;
+    animation: 15s linear infinite turn3;
+    position: absolute;
+    top: 0;
+    right: 25%;
+    z-index: -1;
+}
+.pink-tri {
+    width: 350px;
+    height: 700px;
+    background-color: rgb(255, 50, 100);
+    opacity: 35%;
+    transform-origin: center;
+    animation: 15s linear infinite turn3;
+    position: absolute;
+    bottom: 0%;
+    right: 25%;
+    z-index: -1;
+}
+
+@keyframes turn {
+
+    50% {
+       transform: rotate(270deg) scaleX(-1) skew(45deg);
+    }
+}
+@keyframes turn2 {
+
+    50% {
+       transform: rotate(-90deg) scaleX(-1) skew(45deg);
+    }
+}
+@keyframes turn3 {
+
+    50% {
+       transform: rotate(90deg) scaleX(-1) skew(-45deg);
+    }
+}
+
+     </style>
+ {% endblock %}
+{% block title %} Movie Booking {% endblock title %}
+
+{% block nav1link %}
+  #events
+{% endblock nav1link %}
+
+{% block nav1 %}
+  View Events
+{% endblock nav1 %}
+
+{% block nav2link %}
+
+  {% if user.is_authenticated %}
+
+  {% else %}
+    /signup
+  {% endif %}
+
+{% endblock nav2link %}
+
+{% block nav2 %}
+
+  {% if user.is_authenticated %}
+    Hello, {{user.first_name}}
+  {% else %}
+    Login
+  {% endif %}
+
+{% endblock nav2 %}
+
+{% block nav3link %}
+
+  {% if user.is_authenticated %}
+    /contact
+  {% else %}
+    /contact
+  {% endif %}
+
+{% endblock nav3link %}
+
+{% block nav3 %}
+
+  {% if user.is_authenticated %}
+     Participate
+  {% else %}
+     Participate
+  {% endif %}
+
+{% endblock nav3 %}
+
+{% block nav4link %}
+
+  {% if user.is_authenticated %}
+    /logout
+  {% endif %}
+
+{% endblock nav4link %}
+
+{% block nav4 %}
+
+  {% if user.is_authenticated %}
+     LogOut
+  {% endif %}
+
+{% endblock nav4 %}
+
+{% block body %}
+<div class="wrapper">
+     <div id="bg-tri">
+
+      <div class="red-tri"></div>
+
+      <div class="blue-tri"></div>
+
+      <div class="yellow-tri"></div>
+      <div class="pink-tri"></div>
+  <h3>{{ movie.title }} Premier</h3>
+
+    {% for showtime in showtime %}
+        <a href="{% url 'book-showtime' showtime_id=showtime.id %}">
+        <button type="button" class="btn btn-warning btn-lg square-pill">
+           {{ showtime.date|date:"D, M j, Y" }} At {{ showtime.time|time:"g:i A" }} - {{ showtime.theater.name  }}
+        </a>
+
+    {% endfor %}
+     </div>
+</div>
+
+{% endblock body %}

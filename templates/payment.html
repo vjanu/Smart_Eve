@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <h1>Payment for {{ movie.title }}</h1>
+  <p>You have booked {{ seats }} seats for the show at {{ showtime.time }}</p>
+  {% comment %} Remove this line as it is not used anywhere {% endcomment %}
+  {% comment %} description = "Movie Ticket" {% endcomment %}
+
+  <form  action="{% url 'charge' %}" method="POST" id="payment-form">
+    {% csrf_token %}
+
+     {% for field in form %}
+        {% if field.name == 'total_amount' %}
+            {{ field.label_tag }} {{ field }}
+        {% endif %}
+    {% endfor %}
+
+    <div class="form-row">
+      <label for="card-element">
+        Credit or debit card
+      </label>
+      <div id="card-element">
+        <!-- A Stripe Element will be inserted here. -->
+      </div>
+
+      <div id="card-errors" role="alert"></div>
+    </div>
+    <input type="hidden" name="total_amount" value="{{ total_amount }}">
+  <input type="hidden" name="movie_id" value="{{ movie.id }}">
+  <input type="hidden" name="showtime_id" value="{{ showtime.id }}">
+  <input type="hidden" name="seats" value="{{ seats }}">
+  <input type="hidden" name="booking_id" value="{{ booking_id }}">
+  <input type="hidden" name="stripeToken" value="pk_test_51MePc9HLzeTBgCIJOWfkO5bSbkCUw3ctA94X5gPYvkLwnBD8jX5XnXcesC9PzbGFnLVQqLwIgCtOSbquJXPitxGx00lcUUhL7B">
+
+    <button id="submit-button" type="submit">Pay ${{ total_amount|floatformat:2 }}</button>
+  </form>
+
+  {% block script %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+      // Create an instance of the Stripe object with your publishable API key
+      var stripe = Stripe('pk_test_51MePc9HLzeTBgCIJOWfkO5bSbkCUw3ctA94X5gPYvkLwnBD8jX5XnXcesC9PzbGFnLVQqLwIgCtOSbquJXPitxGx00lcUUhL7B');
+      var submitButton = document.getElementById('submit-button');
+
+      submitButton.addEventListener('click', function(event) {
+        event.preventDefault(); // prevent the default form submission behavior
+
+      fetch('{% url "charge" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            print(total_amount,movie.id,showtime.id,seats,booking_id)
+          total_amount: '{{ total_amount }}',
+          movie_id: '{{ movie.id }}',
+          showtime_id: '{{ showtime.id }}',
+          seats: '{{ seats }}',
+            booking_id: '{{ booking_id }}',
+          stripeToken: 'sk_test_51MePc9HLzeTBgCIJKuJZWtM8N1pHMLPN2QxFD57vrRHGxtHr09bKVj08YCp3X9F0tpiWYn9u3413w56P3o3nzs5Y00dgLtzGHC'
+        })
+      })
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(session) {
+          return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function(result) {
+          // If `redirectToCheckout` fails due to a browser or network
+          // error, you should display the localized error message to your
+          // customer using `error.message`.
+          if (result.error) {
+            alert(result.error.message);
+          }
+        })
+        .catch(function(error) {
+          console.error('Error:', error);
+        });
+      });
+    </script>
+  {% endblock %}
+{% endblock body %}

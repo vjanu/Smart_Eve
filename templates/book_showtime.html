@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="static/css/style_movie.css"/>
+ {% block style %}
+     <style>
+     body{
+
+  background: linear-gradient(45deg ,red ,blue);
+         color: white;
+     }
+     button{
+         width: 100%;
+     }
+     .btn btn-primary{
+         width: 200%;
+     }
+       h1 {
+        font-size: 2.5em;
+        color: antiquewhite;
+        text-align: center;
+        text-transform: uppercase;
+        margin-top: 2em;
+        margin-bottom: 1em;
+      }
+       .wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+}
+
+
+.red-tri {
+    width: 350px;
+    height: 700px;
+    background-color: rgb(255, 0, 0);
+    opacity: 35%;
+    transform-origin: center;
+    animation: 15s linear infinite turn2;
+    position: absolute;
+    top: 0;
+    left: 25%;
+    z-index: -1;
+}
+.blue-tri {
+    width: 350px;
+    height: 700px;
+    background-color: rgb(0, 0, 133);
+    opacity: 35%;
+    transform-origin: center;
+    animation: 15s linear infinite turn2;
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    z-index: -1;
+}
+.yellow-tri {
+    width: 350px;
+    height: 700px;
+    background-color: rgb(255, 255, 0);
+    opacity: 35%;
+    transform-origin: center;
+    animation: 15s linear infinite turn3;
+    position: absolute;
+    top: 0;
+    right: 25%;
+    z-index: -1;
+}
+.pink-tri {
+    width: 350px;
+    height: 700px;
+    background-color: rgb(255, 50, 100);
+    opacity: 35%;
+    transform-origin: center;
+    animation: 15s linear infinite turn3;
+    position: absolute;
+    bottom: 0%;
+    right: 25%;
+    z-index: -1;
+}
+
+@keyframes turn {
+
+    50% {
+       transform: rotate(270deg) scaleX(-1) skew(45deg);
+    }
+}
+@keyframes turn2 {
+
+    50% {
+       transform: rotate(-90deg) scaleX(-1) skew(45deg);
+    }
+}
+@keyframes turn3 {
+
+    50% {
+       transform: rotate(90deg) scaleX(-1) skew(-45deg);
+    }
+}
+     </style>
+ {% endblock style %}
+{% block title %} Movie Booking {% endblock title %}
+{% block nav0 %}
+    Movies
+{% endblock nav0 %}
+{% block nav0link %}
+  /movie
+{% endblock nav0link %}
+{% block nav1link %}
+  #events
+{% endblock nav1link %}
+
+{% block nav1 %}
+  View Events
+{% endblock nav1 %}
+
+{% block nav2link %}
+
+  {% if user.is_authenticated %}
+
+  {% else %}
+    /signup
+  {% endif %}
+
+{% endblock nav2link %}
+
+{% block nav2 %}
+
+  {% if user.is_authenticated %}
+    Welcome {{user.first_name}}
+  {% else %}
+    Login
+  {% endif %}
+
+{% endblock nav2 %}
+
+{% block nav3link %}
+
+  {% if user.is_authenticated %}
+    /contact
+  {% else %}
+    /contact
+  {% endif %}
+
+{% endblock nav3link %}
+
+{% block nav3 %}
+
+  {% if user.is_authenticated %}
+     Participate
+  {% else %}
+     Participate
+  {% endif %}
+
+{% endblock nav3 %}
+
+{% block nav4link %}
+
+  {% if user.is_authenticated %}
+    /logout
+  {% endif %}
+
+{% endblock nav4link %}
+
+{% block nav4 %}
+
+  {% if user.is_authenticated %}
+     LogOut
+  {% endif %}
+
+{% endblock nav4 %}
+
+{% block body %}
+<br><br>
+     <div class="wrapper">
+     <div id="bg-tri">
+
+      <div class="red-tri"></div>
+
+      <div class="blue-tri"></div>
+
+      <div class="yellow-tri"></div>
+      <div class="pink-tri"></div>
+
+  <h1>{{ movie.title }}</h1>
+
+  <div class="canvas-container">
+    <canvas id="canv" width="32" height="100">
+  </div>
+  <div class="row" >
+      <div class = "col-md-4" style="padding-left: 5%;">
+          <div class="carousel-inner">
+              <img src="{{ movie.image_url }}" alt="{{ movie.title }}" style="width:30vw;height:70vh;" >
+          </div>
+      </div>
+      <div class="col-md-8"">
+            <h4>Book Tickets</h4>
+
+            <form method="POST" action="{% url 'book-showtime' showtime_id=showtime.id %}" style="text-align: justify; padding: 5%">
+                <label> <strong>Description: </strong></label><br>{{ movie.description }}<br><br>
+
+                <label><strong>Duration:  </strong></label>&nbsp;{{ movie.duration }}<br>
+                <label><strong>Genres: </strong></label>&nbsp;{{ movie.genre }}<br>
+                <label><strong>Price:</strong></label>&nbsp;{{ movie.price }}<br>
+                <label><strong>Showtimes:</strong></label>&nbsp;{{ showtime }}<br>
+                <label><strong>Movie:</strong></label>&nbsp;{{ movie.title }}<br>
+            {% csrf_token %}
+            {{ form.as_p }}
+                <button type="submit" class="btn btn-primary btn-lg rounded-pill">Book Seats</button>
+            </form>
+        </div>
+  </div>
+     <div class="container">
+         <div class="row justify-content-end">
+         <div class="col-auto">
+          <a href="{% url 'movie-detail' pk=movie.id %}">
+          <button type="button" class="btn btn-primary btn-lg square-pill">
+          Back
+          </button>
+          </a>
+          </div>
+         </div>
+     </div>
+     </div>
+  </div>
+{% endblock body%}

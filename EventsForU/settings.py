@@ -16,7 +16,6 @@ from django.contrib.messages import constants as messages
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = '2e(l^e_xv_zo-52k(7o019pxvf%+n81&$s(vaxrrmo^a^i13*x'
 DEBUG = True
 
 ALLOWED_HOSTS = ['eventzforu.herokuapp.com', '127.0.0.1']
-
 
 # Application definition
 
@@ -84,7 +82,6 @@ AUTHENTICATION_BACKENDS = (
 
 WSGI_APPLICATION = 'EventsForU.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -94,7 +91,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -114,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -128,20 +123,20 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'templates', 'static')
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51MePc9HLzeTBgCIJOWfkO5bSbkCUw3ctA94X5gPYvkLwnBD8jX5XnXcesC9PzbGFnLVQqLwIgCtOSbquJXPitxGx00lcUUhL7B'
+STRIPE_SECRET_KEY = 'sk_test_51MePc9HLzeTBgCIJKuJZWtM8N1pHMLPN2QxFD57vrRHGxtHr09bKVj08YCp3X9F0tpiWYn9u3413w56P3o3nzs5Y00dgLtzGHC'
 # added manuall by me
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
@@ -158,7 +153,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD ='password_here'
+EMAIL_HOST_PASSWORD = 'password_here'
 EMAIL_USE_TLS = True
 
 LOGIN_URL = 'login'

@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% load static %}
+<!-- CSS file for the carousel -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+<!-- JavaScript files for the carousel -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="static/css/style_movie.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ {% block style %}
+     <style>
+     body{
+         background: linear-gradient(45deg ,red ,blue);
+         color: white;
+     }
+          .wrapper {
+  width: 100%;
+  height: 100vh;
+
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+}
+.red-tri {
+    width: 350px;
+    height: 700px;
+    background-color: rgb(255, 0, 0);
+    opacity: 35%;
+    transform-origin: center;
+    animation: 15s linear infinite turn2;
+    position: absolute;
+    top: 0;
+    left: 25%;
+    z-index: -1;
+}
+.blue-tri {
+    width: 350px;
+    height: 700px;
+    background-color: rgb(0, 0, 133);
+    opacity: 35%;
+    transform-origin: center;
+    animation: 15s linear infinite turn2;
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    z-index: -1;
+}
+.yellow-tri {
+    width: 350px;
+    height: 700px;
+    background-color: rgb(255, 255, 0);
+    opacity: 35%;
+    transform-origin: center;
+    animation: 15s linear infinite turn3;
+    position: absolute;
+    top: 0;
+    right: 25%;
+    z-index: -1;
+}
+.pink-tri {
+    width: 350px;
+    height: 700px;
+    background-color: rgb(255, 50, 100);
+    opacity: 35%;
+    transform-origin: center;
+    animation: 15s linear infinite turn3;
+    position: absolute;
+    bottom: 0%;
+    right: 25%;
+    z-index: -1;
+}
+
+@keyframes turn {
+
+    50% {
+       transform: rotate(270deg) scaleX(-1) skew(45deg);
+    }
+}
+@keyframes turn2 {
+
+    50% {
+       transform: rotate(-90deg) scaleX(-1) skew(45deg);
+    }
+}
+@keyframes turn3 {
+
+    50% {
+       transform: rotate(90deg) scaleX(-1) skew(-45deg);
+    }
+}
+     </style>
+ {% endblock style %}
+
+
+
+{% include 'static/css/style_movie.css' %}
+{% block title %} Home {% endblock title %}
+{% block nav0 %}
+    Movies
+{% endblock nav0 %}
+{% block nav0link %}
+  /movie
+{% endblock nav0link %}
+
+{% block nav1link %}
+  #events
+{% endblock nav1link %}
+
+{% block nav1 %}
+  <!--img src="https://img.icons8.com/cute-clipart/38/000000/overtime.png"/> View Events-->
+  <!--img src="/static/img/event.png" width="12%" height="10%"/-->
+    View Events
+{% endblock nav1 %}
+
+{% block nav2link %}
+
+  {% if user.is_authenticated %}
+
+  {% else %}
+    /signup
+  {% endif %}
+
+{% endblock nav2link %}
+
+{% block nav2 %}
+
+  {% if user.is_authenticated %}
+    <!--img src="https://img.icons8.com/emoji/38/000000/waving-hand-emoji.png"/-->
+      <!--img src="/static/img/hello.jpeg" width="30%" height="35%"/--> Hello, {{user.first_name}}
+  {% else %}
+    <!--img src="https://img.icons8.com/emoji/38/000000/waving-hand-emoji.png"/-->
+    <!--img src="/static/img/hello2.jpeg" width="30%" height="35%"/-->  Login
+  {% endif %}
+
+{% endblock nav2 %}
+
+{% block nav3link %}
+
+  {% if user.is_authenticated %}
+    /contact
+  {% else %}
+    /contact
+  {% endif %}
+
+{% endblock nav3link %}
+
+{% block nav3 %}
+
+  {% if user.is_authenticated %}
+    <!--img src="https://img.icons8.com/cute-clipart/38/000000/form.png"/-->
+      <!--img src="/static/img/participate.jpeg" width="15%" height="10%"/--> Participate
+  {% else %}
+    <!--img src="https://img.icons8.com/cute-clipart/38/000000/form.png"/--> Participate
+  {% endif %}
+
+{% endblock nav3 %}
+
+{% block nav4link %}
+
+  {% if user.is_authenticated %}
+    /logout
+  {% endif %}
+
+{% endblock nav4link %}
+
+{% block nav4 %}
+
+  {% if user.is_authenticated %}
+    <!--img src="https://img.icons8.com/cute-clipart/38/000000/logout-rounded-left.png"/--> LogOut
+  {% endif %}
+
+{% endblock nav4 %}
+
+{% block body %}
+    <div class="container" style="width: auto">
+     <div class="wrapper">
+     <div id="bg-tri">
+
+      <div class="red-tri"></div>
+
+      <div class="blue-tri"></div>
+
+      <div class="yellow-tri"></div>
+      <div class="pink-tri"></div>
+    <h1 class="text-center">All Movies</h1>
+    <div class = "container-fluid px-0">
+      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="4000">
+          <div class="carousel-inner">
+              {% for movie in movies %}
+              <div class="carousel-item item {% if forloop.first %}active{% endif %}">
+                  <a href="{% url 'movie-detail' pk=movie.pk %}"><img src="{{ movie.image_url }}" style="max-width:100%; height:45em;" class="d-block w-100" alt="..."></a>
+              <div class="carousel-caption d-none d-md-block">
+                 <h5>{{ movie.title }}</h5>
+              </div>
+              </div>
+              {% endfor %}
+          </div>
+      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+      </div>
+</div>
+</div>
+     </div>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+{% endblock body%}
