@@ -1,8 +1,19 @@
 {% extends 'base.html' %}
 
+{% block head %}
+  <style>
+    body {
+      background-image: url('/templates/static/img/pay.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  </style>
+{% endblock %}
+
 {% block body %}
-  <h1>Payment for {{ movie.title }}</h1>
-  <p>You have booked {{ seats }} seats for the show at {{ showtime.time }}</p>
+  <center><h1>Payment for {{ movie.title }}</h1>
+  <h5>You have booked {{ seats }} seats for the show at {{ showtime.time }}</h5></center>
   {% comment %} Remove this line as it is not used anywhere {% endcomment %}
   {% comment %} description = "Movie Ticket" {% endcomment %}
 
@@ -14,27 +25,80 @@
             {{ field.label_tag }} {{ field }}
         {% endif %}
     {% endfor %}
-
-    <div class="form-row">
-      <label for="card-element">
-        Credit or debit card
-      </label>
-      <div id="card-element">
-        <!-- A Stripe Element will be inserted here. -->
-      </div>
-
-      <div id="card-errors" role="alert"></div>
+<center>
+<div class="form-group">
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="first-name">First Name</label>
+      <input type="text" class="form-control" id="first-name" placeholder="First Name" required>
     </div>
-    <input type="hidden" name="total_amount" value="{{ total_amount }}">
-  <input type="hidden" name="movie_id" value="{{ movie.id }}">
-  <input type="hidden" name="showtime_id" value="{{ showtime.id }}">
-  <input type="hidden" name="seats" value="{{ seats }}">
-  <input type="hidden" name="booking_id" value="{{ booking_id }}">
-  <input type="hidden" name="stripeToken" value="pk_test_51MePc9HLzeTBgCIJOWfkO5bSbkCUw3ctA94X5gPYvkLwnBD8jX5XnXcesC9PzbGFnLVQqLwIgCtOSbquJXPitxGx00lcUUhL7B">
+    <div class="col-md-6 mb-3">
+      <label for="last-name">Last Name</label>
+      <input type="text" class="form-control" id="last-name" placeholder="Last Name" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="address">Address</label>
+    <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+  </div>
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="zip">Zip Code</label>
+      <input type="text" class="form-control" id="zip" placeholder="Zip Code" required>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="card-number">Credit Card Number</label>
+      <input type="text" class="form-control" id="card-number" placeholder="Credit Card Number" required>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="cvc">CVC</label>
+      <input type="text" class="form-control" id="cvc" placeholder="CVC" required>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="expiry-date">Expiry Date</label>
+      <input type="text" class="form-control" id="expiry-date" placeholder="Expiry Date" required>
+    </div>
+  </div>
+  <hr class="my-4">
+  <label for="payment-method-selector">Choose your payment method:</label>
+  <div class="d-flex justify-content-center">
+    <div class="payment-method">
+      <input type="radio" name="payment-method" value="visa" id="visa" class="d-none">
+      <label for="visa">
+        <img src="https://img.icons8.com/color/70/000000/visa.png"/>
+      </label>
+    </div>
+    <div class="payment-method">
+      <input type="radio" name="payment-method" value="mastercard" id="mastercard" class="d-none">
+      <label for="mastercard">
+        <img src="https://img.icons8.com/color/70/000000/mastercard-logo.png"/>
+      </label>
+    </div>
+    <div class="payment-method">
+      <input type="radio" name="payment-method" value="amex" id="amex" class="d-none">
+      <label for="amex">
+        <img src="https://img.icons8.com/color/70/000000/amex.png"/>
+      </label>
+    </div>
+  </div>
+  <div id="card-errors" role="alert"></div>
+</div>
 
-    <button id="submit-button" type="submit">Pay ${{ total_amount|floatformat:2 }}</button>
+
+
+
+<input type="hidden" name="total_amount" value="{{ total_amount }}">
+<input type="hidden" name="movie_id" value="{{ movie.id }}">
+<input type="hidden" name="showtime_id" value="{{ showtime.id }}">
+<input type="hidden" name="seats" value="{{ seats }}">
+<input type="hidden" name="booking_id" value="{{ booking_id }}">
+<input type="hidden" name="stripeToken" value="pk_test_12345">
+<button id="submit-button" class="btn btn-primary" type="submit">Pay ${{ total_amount|floatformat:2 }}</button>
+
   </form>
-
+</center>
   {% block script %}
     <script src="https://js.stripe.com/v3/"></script>
     <script type="text/javascript">

@@ -180,11 +180,11 @@
 
       <div class="yellow-tri"></div>
       <div class="pink-tri"></div>
-  <h3>{{ movie.title }} Premier</h3>
+  <h1><center>{{ movie.title }} Premier</center></h1>
 
     {% for showtime in showtime %}
-        <a href="{% url 'book-showtime' showtime_id=showtime.id %}">
-        <button type="button" class="btn btn-warning btn-lg square-pill">
+       <a href="{% url 'book-showtime' showtime_id=showtime.id %}">
+       <button type="button" class="btn btn-dark btn-lg square-pill">
            {{ showtime.date|date:"D, M j, Y" }} At {{ showtime.time|time:"g:i A" }} - {{ showtime.theater.name  }}
         </a>
 
