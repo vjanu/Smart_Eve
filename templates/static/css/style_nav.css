@@ -1,6 +1,8 @@
 /* The header container */
 .navv{
   position:relative;
+  background: url("https://media.istockphoto.com/vectors/abstract-blurred-colorful-background-vector-id1185382671?k=6&m=1185382671&s=612x612&w=0&h=IBwXnZ6t2aDq1wRUGkNB8B_ZdpaoOYuXgs6IBUnX1j4=") no-repeat;
+  background-size: cover;
 }
 canvas {
   width: 100%;
@@ -11,6 +13,8 @@ canvas {
   position: absolute;
   inset: 0;
   z-index: -1;
+
 }
+
 
 
