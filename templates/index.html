@@ -41,7 +41,7 @@
 
   {% if user.is_authenticated %}
     <!--img src="https://img.icons8.com/emoji/38/000000/waving-hand-emoji.png"/-->
-      <!--img src="/static/img/hello.jpeg" width="30%" height="35%"/--> Hello, {{user.first_name}}
+      <!--img src="/static/img/hello.jpeg" width="30%" height="35%"/--> Hello {{user.first_name}}
   {% else %}
     <!--img src="https://img.icons8.com/emoji/38/000000/waving-hand-emoji.png"/-->
     <!--img src="/static/img/hello2.jpeg" width="30%" height="35%"/-->  Login
@@ -49,26 +49,7 @@
 
 {% endblock nav2 %}
 
-{% block nav3link %} 
 
-  {% if user.is_authenticated %}
-    /contact
-  {% else %}
-    /contact
-  {% endif %}
-
-{% endblock nav3link %}
-
-{% block nav3 %} 
-
-  {% if user.is_authenticated %}
-    <!--img src="https://img.icons8.com/cute-clipart/38/000000/form.png"/-->
-      <!--img src="/static/img/participate.jpeg" width="15%" height="10%"/--> Participate
-  {% else %}
-    <!--img src="https://img.icons8.com/cute-clipart/38/000000/form.png"/--> Participate
-  {% endif %}
-
-{% endblock nav3 %}
 
 {% block nav4link %} 
 
@@ -190,7 +171,7 @@
    </div>
   {% for event in events %}
 
-  <div class="col-sm-6 mb-3 d-flex">
+  <div class="col-md-6 mb-3 d-flex">
   <div class="card" style="background-color: lightsteelblue;border-radius:32px;">
     <img src="https://source.unsplash.com/1600x900/?{{event.title}},{{event.tag}}" class="card-img-top" alt="...">
     <div class="card-body">

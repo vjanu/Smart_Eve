@@ -1,0 +1,63 @@
+body, html {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-image: url('https://images.unsplash.com/photo-1547583073-4b4fe00854c0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.gradient {
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(at 300px 300px, rgba(159,0,190,.9) 0, #4D4FA7 70%);
+}
+.container {
+
+			padding-top: 20px;
+			padding-bottom: 20px;
+			border-radius: 10px;
+			box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.25);
+	        border:5px solid red;
+		}
+		h1, h2, h4 {
+			font-family: "Gill Sans Extrabold", sans-serif;
+			font-weight: bold;
+		}
+		h1 {
+			color: #343a40;
+			font-size: 36px;
+			margin-bottom: 30px;
+		}
+
+		h4 {
+			color: #6c757d;
+			font-size: 18px;
+			margin-bottom: 20px;
+		}
+		.icon {
+			width: 64px;
+			height: 64px;
+			margin-right: 10px;
+			margin-bottom: 10px;
+			display: inline-block;
+			vertical-align: middle;
+		}
+		.row {
+			margin-bottom: 20px;
+		}
+
+
+		.btn-primary {
+			border-color: #343a40;
+			border-radius: 32px;
+			padding: 10px 30px;
+			font-size: 18px;
+		}
+		.btn-primary:hover {
+			background-color: white;
+			color: #343a40;
+		}

@@ -2,12 +2,16 @@
 <html lang="en">
 
   <head>
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'font-awesome/css/all.min.css' %}">
+
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="/static/img/logo.png" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="static/css/style_nav.css">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="shortcut icon" href="/static/img/logo.png" type="image/x-icon" />
+      <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+
+      <link rel="stylesheet" type="text/css" href="static/css/style_nav.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -15,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
     {% block style %} {% endblock style %}
-
+    {% block head %}{% endblock %}
     <title> {% block title %} {% endblock title %} | SmartEve Inc.</title>
   </head>
 
@@ -29,19 +33,19 @@
       <a href="/"><img src="/static/img/logo3.png" alt="" style="width: 300px;height: 70px; background-size: cover;margin-left: -5%;opacity:1;"></a>
     <ul class="navbar-nav ml-auto">
     <li class="nav-item px-3">
-        <a class="nav-link" href="{% block nav0link %} {% endblock nav0link %}" style="color: antiquewhite;font-family:algerian;"><h2>{% block nav0 %} {% endblock nav0 %}</h2> </a>
+        <a class="nav-link" href="{% block nav0link %} {% endblock nav0link %}" style="color: antiquewhite;"><h2>{% block nav0 %} {% endblock nav0 %}</h2> </a>
       </li>
     <li class="nav-item px-3">
-        <a class="nav-link" href="{% block nav1link %} {% endblock nav1link %}" style="color: antiquewhite;font-family:algerian;"><h2>{% block nav1 %} {% endblock nav1 %}</h2> </a>
+        <a class="nav-link" href="{% block nav1link %} {% endblock nav1link %}" style="color: antiquewhite;"><h2>{% block nav1 %} {% endblock nav1 %}</h2> </a>
       </li>
       <li class="nav-item px-3">
-        <a class="nav-link" href="{% block nav2link %} {% endblock nav2link %}" style="color: antiquewhite;font-family:algerian;"><h2>{% block nav2 %} {% endblock nav2 %}</h2> </a>
+        <a class="nav-link" href="{% block nav2link %} {% endblock nav2link %}" style="color: antiquewhite;"><h2>{% block nav2 %} {% endblock nav2 %}</h2> </a>
       </li>
       <li class="nav-item px-3">
-        <a class="nav-link" href="{% block nav3link %} {% endblock nav3link %}" style="color: antiquewhite;font-family:algerian;"><h2>{% block nav3 %} {% endblock nav3 %} </h2></a>
+        <a class="nav-link" href="{% block nav3link %} {% endblock nav3link %}" style="color: antiquewhite;"><h2>{% block nav3 %} {% endblock nav3 %} </h2></a>
       </li>
       <li class="nav-item px-3">
-        <a class="nav-link" href="{% block nav4link %} {% endblock nav4link %}" style="color: antiquewhite;font-family:algerian;"><h2> {% block nav4 %} {% endblock nav4 %} </h2></a>
+        <a class="nav-link" href="{% block nav4link %} {% endblock nav4link %}" style="color: antiquewhite;"><h2> {% block nav4 %} {% endblock nav4 %} </h2></a>
       </li>
     </ul>
   </div>

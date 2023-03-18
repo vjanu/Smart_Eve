@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from datetime import date
 import uuid
 
-
 # Create your models here
 
 class Contact(models.Model):
@@ -38,7 +37,7 @@ class EventPage(models.Model):
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)
-    duration = models.CharField(max_length=25,null=True, blank=False)
+    duration = models.CharField(max_length=25, null=True, blank=False)
     image_url = models.CharField(max_length=100000, null=True, blank=False)
     description = models.TextField(blank=False)
     genre = models.CharField(max_length=100)

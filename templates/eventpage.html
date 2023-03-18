@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
-
+{% load static %}
 <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="static/css/style_nav.css">
+<link rel="stylesheet" type="text/css" href="static/css/style_event.css">
 
+{% block head %}
+  {{ block.super }}
+     <link rel="stylesheet" type="text/css" href="{% static 'css/style_event.css' %}">
+{% endblock %}
 {% block title %} Home {% endblock title %}
 
 {% block nav1link %}
@@ -33,25 +38,7 @@
 
 {% endblock nav2 %}
 
-{% block nav3link %} 
 
-  {% if user.is_authenticated %}
-    /contact
-  {% else %}
-    /contact
-  {% endif %}
-
-{% endblock nav3link %}
-
-{% block nav3 %} 
-
-  {% if user.is_authenticated %}
-     Participate
-  {% else %}
-     Participate
-  {% endif %}
-
-{% endblock nav3 %}
 
 {% block nav4link %} 
 
@@ -69,69 +56,63 @@
 
 {% endblock nav4 %}
 
-{% block body %} 
+{% block body %}
+<body class="events-page">
 <div class="navv">
-<div class="canvas-container">
-    <canvas id="canv" width="32" height="32">
-</div>
-<div class = "container-fluid px-0" style="height: auto;">
-<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="5000">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="https://source.unsplash.com/1600x500/?{{events.title}},{{events.tag}}" class="d-block w-100" alt="...">
-    </div>
-  </div>
-</div>
-<div >
 
-<div class="container mt-4 mb-4" >
-<h1 class="text-center pt-3 pb-3" style="font-family:roboto;font-weight:bold;color:darkblue;"> {{events.title}}</h1>
-<div style="padding:20px;">
-<div class="row">
-    <div class="col-sm">
-      <u><h2 style="font-family:oswald; font-weight:bolder;color:darkblue;"> <img src="https://img.icons8.com/nolan/64/tags.png"/> Date and Time </h2></u>
-      <h4 style="font-family:montserrat;text-align:justify;color:red;"> {{events.eventday}}, {{events.eventmonth}} {{events.eventdate}} {{events.eventyear}} </h4>
+    <div class = "container-fluid px-0" style="height:auto;">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="5000">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://source.unsplash.com/1600x500/?{{events.title}},{{events.tag}}" class="d-block w-100" alt="...">
+        </div>
+      </div>
     </div>
-    <div class="col-sm">
-      <u><h2 style="font-family:oswald;padding-right:170px;color:darkblue;"> <img src="https://img.icons8.com/dusk/64/000000/date-to.png"/> Event Tag </h2></u>
-      <h4 style="font-family:montserrat;text-align:justify;color:red;"> {{events.tag}} </h4>
-    </div>
-</div>
-<div class="row pt-4">
-    <div class="col-sm">
-      <u><h2 style="font-family:oswald;"> <img src="https://img.icons8.com/dusk/64/000000/worldwide-location.png"/> Location </h2></u>
-      <h4 style="font-family:montserrat;text-align:justify;color:red;"> {{events.location}} </h4>  
-    </div>
-    <div class="col-sm">
-      <u><h2 style="font-family:oswald;color:darkblue;"> <img src="https://img.icons8.com/nolan/64/time-card.png"/> Organizer </h2></u>
-      <h4 style="font-family:montserrat;text-align:justify;color:red;">{{events.organizer}}</h4>
-    </div>
-</div>
-<u><h2 class="pt-4" style="font-family:oswald;color:darkblue;"> <img src="https://img.icons8.com/cute-clipart/64/000000/about.png"/> About the event </h2></u>
-<h4 style="text-align:justify;padding-top:20px;padding-bottom:20px;font-family:pt seriff;color:red;"> {{events.desc}} </h4>
-<u><h2 class="text-center" style="font-family:oswald;padding-bottom:20px;color:darkblue;"> Unique id of the event </h2></u>
-<textarea id="copyContent" class="form-control" rows="1" style="background-color:black; color:white;width:340px;margin-left:auto;margin-right:auto;">{{events.id}}</textarea>  
-<div class="text-center pt-3">
-<button class="btn btn-primary" style="border-radius:32px;" onclick="myFunction()">Get Registration ID</button>
-</div>
-</div>
+    </div >
+
+     <div class="gradient" style="border:10px solid black;">
+         <div class="container mt-4 mb-4">
+      <h1 class="text-center pt-3 pb-3" style="font-family: 'Gill Sans Extrabold', sans-serif; color: white; font-weight: bolder;">{{events.title}}</h1>
+      <div style="padding: 20px;">
+            <div class="row">
+              <div class="col-sm">
+                  <h2 style="font-family: system-ui; color: black; font-weight: bolder;"> <span class="gradient-text"><i class="far fa-clock"></i> Date and Time </span></h2>
+                <h4 style="font-family: system-ui; color: white; text-align: justify;">{{events.eventday}}, {{events.eventmonth}} {{events.eventdate}} {{events.eventyear}}</h4>
+              </div>
+              <div class="col-sm">
+                  <h2 style="color: black; padding-right: 170px;"><span class="gradient-text"> <i class="fas fa-tag"></i>Event Tag</span> </h2>
+                <h4 style="color: white; text-align: justify;">{{events.tag}}</h4>
+              </div>
+            </div>
+            <div class="row pt-4">
+              <div class="col-sm">
+                 <h2 style="color: black;"> <span class="gradient-text"><i class="fas fa-map-marker-alt"></i>Location </span></h2>
+                <h4 style="color: white; text-align: justify;">{{events.location}}</h4>
+              </div>
+              <div class="col-sm">
+                  <h2 style="color: black;"> <span class="gradient-text"><i class="far fa-user"></i> Organizer</span> </h2>
+                <h4 style="text-align: justify; color: white;">{{events.organizer}}</h4>
+              </div>
+            </div><br>
+          <h2 class="pt-4" style="color: black;"><span class="gradient-text"> <i class="far fa-file-alt"></i> About the Event </span></h2>
+        <h4 style="text-align: justify; padding-top: 20px; padding-bottom: 20px; color: white;">{{events.desc}}</h4>
+
+        <div class="text-center pt-3">
+          <button class="btn btn-primary" style="border-radius: 32px;width: 100%;" onclick="myFunction()">Book</button>
+        </div>
+      </div>
+         </div>
+            </div>
 </div>
 <script src="static/js/script2.js"></script>
 <script>
-function myFunction() {
-  /* Get the text field */
-  var copyText = document.getElementById("copyContent");
+const gradient = document.querySelector(".gradient");
 
-  /* Select the text field */
-  copyText.select();
-  copyText.setSelectionRange(0, 99999); /*For mobile devices*/
-
-  /* Copy the text inside the text field */
-  document.execCommand("copy");
-
-  /* Alert the copied text */
-  alert("Registration id successfully created. You can now go to the participation page and paste it in the form");
+function onMouseMove(event) {
+  gradient.style.backgroundImage = 'radial-gradient(at ' + event.clientX + 'px ' + event.clientY + 'px, rgba(159,0,191,.9) 0, #4D4FA7 70%)';
 }
-</script>
+document.addEventListener("mousemove", onMouseMove);
 
+</script>
+</body>
 {% endblock body %}
