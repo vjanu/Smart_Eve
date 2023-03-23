@@ -10,8 +10,8 @@ from home.models import EventPage, Contact
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Movie, Theater, Showtime, Booking
-from .forms import BookingForm
+from .models import Movie, Theater, Showtime, Booking, Eventbooking
+from .forms import BookingForm, EventForm
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, request, JsonResponse
@@ -181,7 +181,16 @@ def contact(request):
 
 def eventpage(request, id):
     events = EventPage.objects.filter(id=id).first()
-    return render(request, 'eventpage.html', {'events': events})
+    form = EventForm(request.POST or None, event_id=events.id)
+    if request.method == 'POST':
+        form = EventForm(request.POST or None, event_id=events.id)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.event_page.id = events.id
+            booking.save()
+            return redirect('book_service', booking_id=booking.id)
+
+    return render(request, 'eventpage.html', {'events': events, 'form':form})
 
 
 def logout(request):
@@ -224,45 +233,85 @@ YOUR_DOMAIN = 'http://127.0.0.1:8080'
 
 
 def charge(request):
-    print(request.POST)
     if request.method == 'POST':
+        print("booking id1234:",request.POST)
         booking_id = request.POST.get('booking_id')
-        print('Booking ID:', booking_id)
-        booking = Booking.objects.get(id=booking_id)
-        total_amount = int(request.POST.get('total_amount'))
-        seats = request.POST.get('seats')
-        showtime = booking.showtime
-        movie_title = booking.showtime.movie.title
-
-        stripe_token = request.POST.get('stripeToken')
-        print(stripe_token)
-
-        try:
-
-            session = stripe.checkout.Session.create(
-                payment_method_types=['card'],
-                line_items=[{
-                    'price_data': {
-                        'currency': 'cad',
-                        'product_data': {
-                            'name': 'Movie Ticket',
+        if Booking.objects.filter(id=booking_id).exists():
+             print("-----Movie----")
+             booking = Booking.objects.get(id=booking_id)
+             total_amount = int(request.POST.get('total_amount'))
+             seats = request.POST.get('seats')
+             showtime = booking.showtime
+             movie_title = booking.showtime.movie.title
+             stripe_token = request.POST.get('stripeToken')
+             try:
+                session = stripe.checkout.Session.create(
+                    payment_method_types=['card'],
+                    line_items=[{
+                        'price_data': {
+                            'currency': 'cad',
+                            'product_data': {
+                                'name': 'Movie Ticket',
+                            },
+                            'unit_amount': int(total_amount * 100),
                         },
-                        'unit_amount': int(total_amount * 100),
-                    },
-                    'quantity': seats,
-                }],
-                mode='payment',
-                success_url=YOUR_DOMAIN + '/success.html',
-                cancel_url=YOUR_DOMAIN + '/cancel.html',
-            )
-            print("total_amount",total_amount)
-            booking.payment_status = True
-            booking.total_price = total_amount
-            booking.save()
-            messages.success(request,
-                             f'Thank you for booking {seats} seats for {movie_title}  at {booking.showtime.time} at {booking.showtime.theater.name}!')
-            return redirect('home')
-        except Exception as e:
-            print(str(e))
-            return JsonResponse({'error': str(e)})
+                        'quantity': seats,
+                    }],
+                    mode='payment',
+                    success_url=YOUR_DOMAIN + '/success.html',
+                    cancel_url=YOUR_DOMAIN + '/cancel.html',
+                )
+                print("total_amount", total_amount)
+                booking.payment_status = True
+                booking.total_price = total_amount
+                booking.save()
+                messages.success(request,
+                                 f'Thank you for booking {seats} seats for {movie_title}  at {booking.showtime.time} at {booking.showtime.theater.name}!')
+                return redirect('home')
+             except Exception as e:
+                print(str(e))
+                return JsonResponse({'error': str(e)})
+             return JsonResponse({'error': 'Invalid request method'})
+
+        elif Eventbooking.objects.filter(id=booking_id).exists():
+            print("-----Evente----")
+            booking = Eventbooking.objects.get(id=booking_id)
+            price = float(request.POST.get('total_amount'))
+            print("price=",price)
+            event_title = booking.event_page.title
+            stripe_token = request.POST.get('stripeToken')
+            try:
+                session = stripe.checkout.Session.create(
+                    payment_method_types=['card'],
+                    line_items=[{
+                        'price_data': {
+                            'currency': 'cad',
+                            'product_data': {
+                                'name': 'Event Ticket',
+                            },
+                            'unit_amount': int(price*100) ,
+                       },
+                      'quantity': 1,
+                    }],
+                    mode='payment',
+                    success_url=YOUR_DOMAIN + '/success.html',
+                    cancel_url=YOUR_DOMAIN + '/cancel.html',
+                )
+
+                booking.payment_status = True
+                booking.featured_price = price
+                booking.save()
+                messages.success(request,
+                                 f'Thank you for booking for {event_title}  at {booking.event_page.location}!')
+                return redirect('home')
+            except Exception as e:
+                print(str(e))
+                return JsonResponse({'error': str(e)})
     return JsonResponse({'error': 'Invalid request method'})
+
+
+def book_service(request, booking_id):
+    # service = get_object_or_404(ServicePage, pk=service_id)
+    print(booking_id)
+    booking = get_object_or_404(Eventbooking, pk=booking_id)
+    return render(request, 'payment_event.html', {'booking_id': booking_id, 'booking': booking, 'stripe_publishable_key': settings.STRIPE_PUBLISHABLE_KEY})

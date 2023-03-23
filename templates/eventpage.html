@@ -9,9 +9,15 @@
      <link rel="stylesheet" type="text/css" href="{% static 'css/style_event.css' %}">
 {% endblock %}
 {% block title %} Home {% endblock title %}
+{% block nav0link %}
+  /movie
+{% endblock nav0link %}
 
+{% block nav0 %}
+    Movies
+{% endblock nav0 %}
 {% block nav1link %}
-  #events
+  /
 {% endblock nav1link %}
 
 {% block nav1 %}
@@ -94,11 +100,39 @@
                 <h4 style="text-align: justify; color: white;">{{events.organizer}}</h4>
               </div>
             </div><br>
+          <div class="row pt-4">
+              <div class="col-sm">
+                 <h2 style="color: black;"> <span class="gradient-text"><i class="fas fa-circle-dollar-to-slot"></i>Featured Price </span></h2>
+                <h4 style="color: white; text-align: justify;">{{events.price}}$</h4>
+              </div>
+
+            </div><br>
           <h2 class="pt-4" style="color: black;"><span class="gradient-text"> <i class="far fa-file-alt"></i> About the Event </span></h2>
         <h4 style="text-align: justify; padding-top: 20px; padding-bottom: 20px; color: white;">{{events.desc}}</h4>
 
         <div class="text-center pt-3">
-          <button class="btn btn-primary" style="border-radius: 32px;width: 100%;" onclick="myFunction()">Book</button>
+
+          <a href="% url 'book_service' service_id=events.id %" data-toggle="modal" data-target="#bookingModal"><button class="btn btn-primary" style="border-radius: 32px;width: 100%;">Book Now</button></a>
+            <div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="bookingModalLabel">{{ events.title }}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
          </div>

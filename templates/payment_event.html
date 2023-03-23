@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <style>
+    body {
+      background-image: url('/img/pay.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <center><h1>Payment for {{ booking.event_page.title }}</h1></center>
+  {% comment %} Remove this line as it is not used anywhere {% endcomment %}
+  {% comment %} description = "Movie Ticket" {% endcomment %}
+
+  <form  action="{% url 'charge' %}" method="POST" id="payment-form">
+    {% csrf_token %}
+      {% for field in form %}
+        {% if field.name == 'total_amount' %}
+            {{ field.label_tag }} {{ field }}
+        {% endif %}
+      {% endfor %}
+
+<center>
+<div class="form-group">
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="first-name">First Name</label>
+      <input type="text" class="form-control" id="first-name" name="first_name" placeholder="First Name" required>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="last-name">Last Name</label>
+      <input type="text" class="form-control" id="last-name"  name="last_name" placeholder="Last Name" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="address">Address</label>
+    <input type="text" class="form-control" id="address"  name="address" placeholder="1234 Main St" required>
+  </div>
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="zip">Zip Code</label>
+      <input type="text" class="form-control" id="zip" name="zip" placeholder="Zip Code" required>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="card-number">Credit Card Number</label>
+      <input type="text" class="form-control" id="card-number"  name="card-number" placeholder="Credit Card Number" required>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="cvc">CVC</label>
+      <input type="text" class="form-control" id="cvc"  name="cvc" placeholder="CVC" required>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="expiry-date">Expiry Date</label>
+      <input type="text" class="form-control" id="expiry-date" name="expiry-date" placeholder="Expiry Date" required>
+    </div>
+  </div>
+  <hr class="my-4">
+  <label for="payment-method-selector">Choose your payment method:</label>
+  <div class="d-flex justify-content-center">
+    <div class="payment-method">
+      <input type="radio" name="payment-method" value="visa" id="visa" class="d-none">
+      <label for="visa">
+        <img src="https://img.icons8.com/color/70/000000/visa.png"/>
+      </label>
+    </div>
+    <div class="payment-method">
+      <input type="radio" name="payment-method" value="mastercard" id="mastercard" class="d-none">
+      <label for="mastercard">
+        <img src="https://img.icons8.com/color/70/000000/mastercard-logo.png"/>
+      </label>
+    </div>
+    <div class="payment-method">
+      <input type="radio" name="payment-method" value="amex" id="amex" class="d-none">
+      <label for="amex">
+        <img src="https://img.icons8.com/color/70/000000/amex.png"/>
+      </label>
+    </div>
+  </div>
+  <div id="card-errors" role="alert"></div>
+</div>
+
+<input type="hidden" name="total_amount" value="{{ booking.featured_price }}">
+<input type="hidden" name="event_id" value="{{ booking.event_page.id }}">
+<input type="hidden" name="booking_id" value="{{ booking.id }}">
+<input type="hidden" name="stripeToken" value="pk_test_12345">
+<button id="submit-button" class="btn btn-primary" type="submit">Pay ${{ booking.featured_price|floatformat:2 }}</button>
+
+  </form>
+</center>
+  {% block script %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+      // Create an instance of the Stripe object with your publishable API key
+      var stripe = Stripe('pk_test_51MePc9HLzeTBgCIJOWfkO5bSbkCUw3ctA94X5gPYvkLwnBD8jX5XnXcesC9PzbGFnLVQqLwIgCtOSbquJXPitxGx00lcUUhL7B');
+      var submitButton = document.getElementById('submit-button');
+
+      submitButton.addEventListener('click', function(event) {
+        event.preventDefault(); // prevent the default form submission behavior
+
+      fetch('{% url "charge" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            print(total_amount,event_id,booking_id,stripeToken)
+          total_amount: '{{ booking.featured_price }}',
+          booking:{{ booking }},
+          event_id: '{{ booking.event_page.id }}',
+          booking_id: '{{ booking.id }}',
+          stripeToken: 'sk_test_51MePc9HLzeTBgCIJKuJZWtM8N1pHMLPN2QxFD57vrRHGxtHr09bKVj08YCp3X9F0tpiWYn9u3413w56P3o3nzs5Y00dgLtzGHC'
+        })
+      })
+        .then(function(response) {
+             console.log('Response received:', response);
+          return response.json();
+        })
+        .then(function(session) {
+            console.log(session.id);
+          return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function(result) {
+          // If `redirectToCheckout` fails due to a browser or network
+          // error, you should display the localized error message to your
+          // customer using `error.message`.
+          if (result.error) {
+            alert(result.error.message);
+          }
+        })
+        .catch(function(error) {
+          console.error('Error:', error);
+        });
+      });
+    </script>
+  {% endblock %}
+{% endblock body %}

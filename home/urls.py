@@ -14,7 +14,8 @@ urlpatterns = [
     path('movie/', MovieListView.as_view(), name='movie-list'),
     path('movie/<int:pk>/', views.movie_detail, name='movie-detail'),
     path('moviebook/<int:showtime_id>/', book_showtime, name='book-showtime'),
-    path('payment/<int:booking_id>/', views.payment, name='payment'),
+    path('book_service/<uuid:booking_id>/', views.book_service, name='book_service'),
+    path('payment/<uuid:booking_id>/', views.payment, name='payment'),
     path('charge/', views.charge, name='charge')
 ]
 if settings.DEBUG:

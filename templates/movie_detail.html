@@ -107,7 +107,7 @@
 {% block title %} Movie Booking {% endblock title %}
 
 {% block nav1link %}
-  #events
+  /
 {% endblock nav1link %}
 
 {% block nav1 %}
@@ -134,25 +134,7 @@
 
 {% endblock nav2 %}
 
-{% block nav3link %}
 
-  {% if user.is_authenticated %}
-    /contact
-  {% else %}
-    /contact
-  {% endif %}
-
-{% endblock nav3link %}
-
-{% block nav3 %}
-
-  {% if user.is_authenticated %}
-     Participate
-  {% else %}
-     Participate
-  {% endif %}
-
-{% endblock nav3 %}
 
 {% block nav4link %}
 

@@ -135,7 +135,7 @@
 {% endblock nav0link %}
 
 {% block nav1link %}
-  #events
+  /
 {% endblock nav1link %}
 
 {% block nav1 %}
@@ -166,26 +166,8 @@
 
 {% endblock nav2 %}
 
-{% block nav3link %}
 
-  {% if user.is_authenticated %}
-    /contact
-  {% else %}
-    /contact
-  {% endif %}
 
-{% endblock nav3link %}
-
-{% block nav3 %}
-
-  {% if user.is_authenticated %}
-    <!--img src="https://img.icons8.com/cute-clipart/38/000000/form.png"/-->
-      <!--img src="/static/img/participate.jpeg" width="15%" height="10%"/--> Participate
-  {% else %}
-    <!--img src="https://img.icons8.com/cute-clipart/38/000000/form.png"/--> Participate
-  {% endif %}
-
-{% endblock nav3 %}
 
 {% block nav4link %}
 

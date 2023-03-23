@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from datetime import date
 import uuid
 
+
 # Create your models here
 
 class Contact(models.Model):
@@ -24,6 +25,7 @@ class EventPage(models.Model):
     desc = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     location = models.TextField(default='')
+    price = models.IntegerField(default=10)
     tag = models.CharField(max_length=122, default='')
     eventdate = models.IntegerField(default=1)
     eventday = models.TextField(default="")
@@ -66,6 +68,7 @@ class Showtime(models.Model):
 
 
 class Booking(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     showtime = models.ForeignKey(Showtime, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
@@ -75,3 +78,15 @@ class Booking(models.Model):
 
     def __str__(self):
         return f'{self.showtime.movie.title} at {self.showtime.theater.name} ({self.showtime.date} {self.showtime.time}), {self.user.username}, {self.seats} seats'
+
+
+class Eventbooking(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    event_page = models.ForeignKey(EventPage, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    date_booked = models.DateTimeField(auto_now_add=True)
+    featured_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    payment_status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.event_page.title} Booking in the name of {self.name} for {self.event_page.title}'
