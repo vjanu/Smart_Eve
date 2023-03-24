@@ -8,12 +8,18 @@
      }
      a{
          color:white;
+         font-weight: bolder;
      }
      button{
          width: 100%;
+
      }
      .btn btn-primary{
          width: 200%;
+
+     }
+     .btn{
+          border: 10px solid black;
      }
        h1 {
         font-size: 2.5em;
@@ -166,7 +172,7 @@
 
     {% for showtime in showtime %}
        <a href="{% url 'book-showtime' showtime_id=showtime.id %}">
-       <button type="button" class="btn btn-dark btn-lg square-pill">
+       <button type="button" class="btn btn-lg square-pill">
            {{ showtime.date|date:"D, M j, Y" }} At {{ showtime.time|time:"g:i A" }} - {{ showtime.theater.name  }}
         </a>
 

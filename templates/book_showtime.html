@@ -3,13 +3,15 @@
 <link rel="stylesheet" type="text/css" href="static/css/style_movie.css"/>
  {% block style %}
      <style>
-     body{
+     @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 
-  background: linear-gradient(45deg ,red ,blue);
+     @import url("https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css");
+     body{
+         background: linear-gradient(45deg ,red ,blue);
          color: white;
      }
      button{
-         width: 100%;
+         width: 80%;
      }
      .btn btn-primary{
          width: 200%;
@@ -19,8 +21,6 @@
         color: antiquewhite;
         text-align: center;
         text-transform: uppercase;
-        margin-top: 2em;
-        margin-bottom: 1em;
       }
        .wrapper {
   width: 100%;
@@ -30,6 +30,123 @@
   align-items: center;
   position: relative;
 
+}
+
+
+
+
+.movie-container {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.movie-container select {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  padding: 0px 15px;
+  margin-bottom: 40px;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.container {
+  perspective: 1000px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+     width:500px;
+}
+
+
+  .seat {
+  background-color: #ffffff;
+  height: 22px;
+  width: 25px;
+  margin: 3px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+
+}
+
+.selected {
+  background-color: yellowgreen;
+}
+
+.occupied {
+  background-color: #fff;
+}
+
+.seat:nth-of-type(2) {
+  margin-right: 18px;
+}
+
+.seat:nth-last-of-type(2) {
+  margin-left: 18px;
+}
+
+.seat:not(.occupied):hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.showcase .seat:not(.occupied):hover {
+  cursor: default;
+  transform: scale(1);
+}
+
+.showcase {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  background: rgba(0,0,0,0.1);
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #777;
+}
+
+.showcase li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.showcase li small {
+  margin-left: 2px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen {
+  background: #fff;
+  height: 70px;
+  width: 70%;
+  margin: 15px 0;
+  transform: rotateX(-45deg);
+  box-shadow: 0 3px 10px rgba(255,255,255,0.7);
+}
+
+p.text {
+  margin: 40px 0;
+}
+
+p.text span {
+  color: yellowgreen;
+  font-weight: bolder;
+  box-sizing: content-box;
+}
+
+.credits a {
+  color: #fff;
 }
 
 
@@ -81,7 +198,9 @@
     right: 25%;
     z-index: -1;
 }
-
+ .hidden {
+    display: none;
+  }
 @keyframes turn {
 
     50% {
@@ -100,6 +219,13 @@
        transform: rotate(90deg) scaleX(-1) skew(-45deg);
     }
 }
+.col-md-7{
+    margin-top:0%;
+    padding-right: 2%;
+}
+ #seats-field {
+      display: none;
+    }
      </style>
  {% endblock style %}
 {% block title %} Movie Booking {% endblock title %}
@@ -158,32 +284,29 @@
 {% endblock nav4 %}
 
 {% block body %}
+    <body>
 <br><br>
-     <div class="wrapper">
-     <div id="bg-tri">
-
+<div class="body-container">
+    <div class="body-heading" >
+    <h1>{{ movie.title }}</h1>
+    </div>
+<div class="wrapper">
       <div class="red-tri"></div>
 
       <div class="blue-tri"></div>
 
       <div class="yellow-tri"></div>
       <div class="pink-tri"></div>
-
-  <h1>{{ movie.title }}</h1>
-
-  <div class="canvas-container">
-    <canvas id="canv" width="32" height="100">
-  </div>
   <div class="row" >
-      <div class = "col-md-4" style="padding-left: 5%;">
+      <div class = "col-md-5" style="padding-left: 5%;">
+
           <div class="carousel-inner">
-              <img src="{{ movie.image_url }}" alt="{{ movie.title }}" style="width:30vw;height:70vh;" >
+              <img src="{{ movie.image_url }}" alt="{{ movie.title }}" style="width:30vw;height:90vh;" >
           </div>
       </div>
-      <div class="col-md-8"">
+      <div class="col-md-7" >
             <h4>Book Tickets</h4>
-
-            <form method="POST" action="{% url 'book-showtime' showtime_id=showtime.id %}" style="text-align: justify; padding: 5%">
+            <form method="POST" action="{% url 'book-showtime' showtime_id=showtime.id %}" style="text-align: justify;">
                 <label> <strong>Description: </strong></label><br>{{ movie.description }}<br><br>
 
                 <label><strong>Duration:  </strong></label>&nbsp;{{ movie.duration }}<br>
@@ -193,21 +316,80 @@
                 <label><strong>Movie:</strong></label>&nbsp;{{ movie.title }}<br>
             {% csrf_token %}
             {{ form.as_p }}
-                <button type="submit" class="btn btn-primary btn-lg rounded-pill">Book Seats</button>
+
+                 <select id="movie" class="hidden">
+                 <option value="{{ movie.price  }}"></option>
+                 </select>
+             <div class="movie-container">
+                <div class="container" >
+                            <div class="row">
+                                <div class="seat"></div>
+                                <div class="seat"></div>
+                                <div class="seat"></div>
+                                <div class="seat"></div>
+                                <div class="seat"></div>
+                            </div>
+                            <div class="row">
+                                <div class="seat"></div>
+                                <div class="seat"></div>
+                                <div class="seat"></div>
+                                <div class="seat"></div>
+                                <div class="seat"></div>
+                            </div>
+
+
+                            <p class="text">
+                              &nbsp;&nbsp;You have selected <span id="count">0</span> seats for the total price of $<span id="total">0</span>
+                            </p>
+                </div>
+            </div>
+
+
+  </div>
+
+                <button type="submit" class="btn btn-primary btn-lg rounded-pill" onclick="updateSeats()">Book Seats</button>
             </form>
-        </div>
-  </div>
-     <div class="container">
-         <div class="row justify-content-end">
-         <div class="col-auto">
-          <a href="{% url 'movie-detail' pk=movie.id %}">
-          <button type="button" class="btn btn-primary btn-lg square-pill">
-          Back
-          </button>
-          </a>
-          </div>
-         </div>
+
      </div>
-     </div>
-  </div>
+</div>
+</div>
+<script>
+    const container = document.querySelector('.container');
+const seats = document.querySelectorAll('.row .seat:not(.occupied)');
+const count = document.getElementById('count');
+const total = document.getElementById('total');
+const movieSelect = document.getElementById('movie');
+
+let ticketPrice = +{{ movie.price }};
+
+//Update total and count
+function updateSelectedCount() {
+  const selectedSeats = document.querySelectorAll('.row .seat.selected');
+  const selectedSeatsCount = selectedSeats.length;
+  count.innerText = selectedSeatsCount;
+  total.innerText = selectedSeatsCount * ticketPrice;
+}
+function updateSeats() {
+
+  var savedValue = document.getElementById('count').innerText
+  document.getElementById("seats-field").value = savedValue;
+}
+//Movie Select Event
+movieSelect.addEventListener('change', e => {
+  ticketPrice = +{{ movie.price }};
+  updateSelectedCount();
+});
+
+//Seat click event
+container.addEventListener('click', e => {
+
+  if (e.target.classList.contains('seat') &&
+     !e.target.classList.contains('occupied')) {
+    e.target.classList.toggle('selected');
+  }
+  updateSelectedCount();
+});
+
+</script>
+    </body>
 {% endblock body%}
