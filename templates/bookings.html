@@ -17,6 +17,7 @@
 
 {% block nav2link %}
   {% if user.is_authenticated %}
+      /profile
   {% else %}
     /signup
   {% endif %}

@@ -33,7 +33,7 @@ class EventForm(forms.ModelForm):
         self.fields['featured_price'].widget.attrs['readonly'] = True
         self.fields['event_page'].initial = event.id
         self.fields['event_page'].widget.attrs['readonly'] = True
-        if user:
+        if user and user.is_authenticated:
             self.fields['name'].initial = user.get_full_name()
             self.fields['name'].widget.attrs['readonly'] = True
             self.fields['email'].initial = user.email

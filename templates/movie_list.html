@@ -126,7 +126,7 @@
 
 
 {% include 'static/css/style_movie.css' %}
-{% block title %} Home {% endblock title %}
+{% block title %} Movie Booking {% endblock title %}
 {% block nav0 %}
     Movies
 {% endblock nav0 %}
@@ -147,7 +147,7 @@
 {% block nav2link %}
 
   {% if user.is_authenticated %}
-
+    /profile
   {% else %}
     /signup
   {% endif %}

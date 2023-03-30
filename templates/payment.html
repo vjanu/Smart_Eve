@@ -8,9 +8,88 @@
       background-position: center;
       background-repeat: no-repeat;
     }
+    body {
+			font-family: 'Montserrat', sans-serif;
+			background: linear-gradient(to bottom, #9b4dca 0%, #4e54c8 100%);
+			color: #fff;
+		}
+
+		h1 {
+			font-size: 3rem;
+			margin-top: 3rem;
+		}
+
+		form {
+			margin-top: 3rem;
+		}
+
+		label {
+			font-size: 1.2rem;
+		}
+
+		input[type="text"], input[type="radio"] {
+			border-radius: 0;
+			border: none;
+			background-color: #fff;
+			color: #666;
+			font-size: 1rem;
+			padding: 0.5rem 1rem;
+			box-shadow: none;
+			width: 100%;
+			margin-bottom: 1rem;
+			-webkit-transition: all 0.3s;
+			-moz-transition: all 0.3s;
+			-o-transition: all 0.3s;
+			transition: all 0.3s;
+		}
+
+		input[type="text"]:focus, input[type="radio"]:focus {
+			border-color: #fff;
+			outline: none;
+			box-shadow: none;
+		}
+
+		input[type="radio"] + label {
+			margin-left: 0.5rem;
+			margin-right: 0.5rem;
+			cursor: pointer;
+		}
+
+		input[type="radio"] + label img {
+			-webkit-filter: grayscale(100%);
+			filter: grayscale(100%);
+			opacity: 0.6;
+		}
+
+		input[type="radio"]:checked + label img {
+			-webkit-filter: grayscale(0%);
+			filter: grayscale(0%);
+			opacity: 1;
+		}
+
+		.btn-primary {
+			background-color: black;
+			color: white;
+			border: none;
+			border-radius: 0;
+			font-size: 1.5rem;
+			font-weight: 700;
+			padding: 1rem 2rem;
+			-webkit-transition: all 0.3s;
+			-moz-transition: all 0.3s;
+			-o-transition: all 0.3s;
+			transition: all 0.3s;
+			box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+			cursor: pointer;
+		}
+
+		.btn-primary:hover {
+			background-color: yellowgreen;
+			color: #fff;
+		}
   </style>
 {% endblock %}
-{% block title %} Home {% endblock title %}
+{% block title %} Movie Payment {% endblock title %}
 
 {% block nav0link %}
   /movie
@@ -32,7 +111,7 @@
 {% block nav2link %}
 
   {% if user.is_authenticated %}
-
+    /profile
   {% else %}
     /signup
   {% endif %}
@@ -95,43 +174,89 @@
         {% endif %}
     {% endfor %}
 <center>
-<div class="form-group">
+<div class="form-group" style="padding-left: 5%;padding-right: 5%">
   <div class="form-row">
     <div class="col-md-6 mb-3">
       <label for="first-name">First Name</label>
-      <input type="text" class="form-control" id="first-name" placeholder="First Name" required>
+          <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-user"></i></span>
+          </div>
+          <input type="text" class="form-control" id="first-name" placeholder="First Name" required>
+        </div>
     </div>
     <div class="col-md-6 mb-3">
-      <label for="last-name">Last Name</label>
-      <input type="text" class="form-control" id="last-name" placeholder="Last Name" required>
+     <label for="first-name">Last Name</label>
+          <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-user"></i></span>
+          </div>
+          <input type="text" class="form-control" id="last-name" placeholder="Last Name" required>
+        </div>
     </div>
   </div>
   <div class="form-group">
     <label for="address">Address</label>
-    <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+          <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-user"></i></span>
+          </div>
+          <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+        </div>
   </div>
   <div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label for="zip">Zip Code</label>
+  <div class="col-md-6 mb-3">
+       <label for="address">Zip Code</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+      </div>
       <input type="text" class="form-control" id="zip" placeholder="Zip Code" required>
     </div>
-    <div class="col-md-6 mb-3">
-      <label for="card-number">Credit Card Number</label>
-      <input type="text" class="form-control" id="card-number" placeholder="Credit Card Number" required>
-    </div>
   </div>
-  <div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label for="cvc">CVC</label>
-      <input type="text" class="form-control" id="cvc" placeholder="CVC" required>
-    </div>
-    <div class="col-md-6 mb-3">
-      <label for="expiry-date">Expiry Date</label>
-      <input type="text" class="form-control" id="expiry-date" placeholder="Expiry Date" required>
-    </div>
+  <div class="col-md-6 mb-3">
+      <label for="address">Credit Card Number</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="far fa-credit-card"></i></span>
+      </div>
+      <input type="text" class="form-control" id="card-number" placeholder="Credit Card Number" required pattern="[0-9]{16}">
+
+      <div class="invalid-feedback">
+      Please enter a valid credit card number.
+      </div>
+        </div>
   </div>
+</div>
+ <div class="form-row">
+  <div class="col-md-6 mb-3">
+    <label for="cvc"> CVC</label>
+      <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+      </div>
+      <input type="text" class="form-control" id="cvc" placeholder="CVC" required pattern="[0-9]{3}">
+           <div class="invalid-feedback">
+      Please enter a valid CVC code.
+    </div>
+      </div>
+  </div>
+     <div class="col-md-6 mb-3">
+     <label for="expiry-date"> Expiry Date</label>
+      <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+      </div>
+      <input type="text" class="form-control" id="expiry-date" placeholder="Expiry Date" required pattern="^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$">
+          <div class="invalid-feedback">
+      Please enter a valid expiry date in the format MM/YY.
+    </div>
+      </div>
+  </div>
+</div>
+
   <hr class="my-4">
-  <label for="payment-method-selector">Choose vbn your payment method:</label>
+  <label for="payment-method-selector">Choose your payment method:</label>
   <div class="d-flex justify-content-center">
     <div class="payment-method">
       <input type="radio" name="payment-method" value="visa" id="visa" class="d-none">
@@ -164,7 +289,7 @@
 <input type="hidden" name="seats" value="{{ seats }}">
 <input type="hidden" name="booking_id" value="{{ booking_id }}">
 <input type="hidden" name="stripeToken" value="pk_test_12345">
-<button id="submit-button" class="btn btn-primary" type="submit">Pay ${{ total_amount|floatformat:2 }}</button>
+<button id="submit-button" class="btn btn-primary" type="submit">Pay ${{ total_amount|floatformat:2 }}</button><br><br>
 
   </form>
 </center>
@@ -212,6 +337,9 @@
           console.error('Error:', error);
         });
       });
+
+
+
     </script>
   {% endblock %}
 {% endblock body %}

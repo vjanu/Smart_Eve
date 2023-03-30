@@ -41,22 +41,19 @@ class MovieListView(ListView):
     template_name = 'movie_list.html'
     context_object_name = 'movies'
 
-
 def movie_detail(request, pk):
-    movie = get_object_or_404(Movie, pk=pk)
-    theaters = Theater.objects.all()
-    show = Showtime.objects.filter(movie__id=movie.id)
-    return render(request, 'movie_detail.html', {'movie': movie, 'theaters': theaters, "showtime": show})
+        movie = get_object_or_404(Movie, pk=pk)
+        theaters = Theater.objects.all()
+        show = Showtime.objects.filter(movie__id=movie.id)
+        return render(request, 'movie_detail.html', {'movie': movie, 'theaters': theaters, "showtime": show})
 
 
-@login_required
+@login_required(login_url='/')
 def book_showtime(request, showtime_id):
     showtime = get_object_or_404(Showtime, pk=showtime_id)
 
     if request.method == 'POST':
-        print("Hello World")
         form = BookingForm(request.POST)
-        print(f"Form is {form.is_valid()}")
         if form.is_valid():
             print("Hello")
             seats = request.POST.getlist('seats')
@@ -82,6 +79,10 @@ def book_showtime(request, showtime_id):
         else:
             print(form.errors)
 
+    elif request.user.is_anonymous:
+            messages.warning(request, "You need to be logged in to book the tickets!")
+            redirect('/')
+            messages.warning(request, "You need to be logged in to book the tickets!")
     form = BookingForm()
     return render(request, 'book_showtime.html', {'form': form, 'showtime': showtime, 'movie': showtime.movie})
 
@@ -188,7 +189,8 @@ def eventpage(request, id):
             booking.seats = seats
             booking.save()
             return redirect('book_service', booking_id=booking.id)
-
+    elif request.user.is_anonymous:
+       messages.warning(request, 'You need to be logged in to book this event.')
     return render(request, 'eventpage.html', {'events': events, 'form': form})
 
 
@@ -230,7 +232,7 @@ def payment(request, booking_id):
 
 YOUR_DOMAIN = 'http://127.0.0.1:8080'
 
-
+@login_required(login_url='/')
 def charge(request):
     if request.method == 'POST':
         print("booking id1234:", request.POST)
@@ -309,12 +311,12 @@ def charge(request):
     return JsonResponse({'error': 'Invalid request method'})
 
 
-@login_required()
+@login_required(login_url='/')
 def booking_detail(request, booking_id):
     if Booking.objects.filter(id=booking_id).exists():
         booking = get_object_or_404(Booking, id=booking_id)
         tag = 'movie'
-        user = ''
+        user = request.user
     else:
         booking = get_object_or_404(Eventbooking, id=booking_id)
         tag = 'event'
@@ -323,7 +325,7 @@ def booking_detail(request, booking_id):
     return render(request, 'booking_detail.html', {'booking': booking, 'tag': tag, 'user': user})
 
 
-@login_required()
+@login_required(login_url='/')
 def bookings(request):
     user = User.objects.get(email=request.user.email)
     booking_list = Booking.objects.filter(user=user)
@@ -331,7 +333,7 @@ def bookings(request):
     context = {'booking_list': booking_list, 'eventbooking_list': eventbooking_list}
     return render(request, 'bookings.html', context)
 
-
+@login_required(login_url='/')
 def booking_pdf(request, booking_id):
     # Get booking data for the specified booking_id
     # Create a new PDF document with ReportLab
@@ -399,7 +401,7 @@ def booking_pdf(request, booking_id):
         response['Content-Disposition'] = 'attachment; filename=booking.pdf'
         return response
 
-
+@login_required(login_url='/')
 def book_service(request, booking_id):
     # service = get_object_or_404(ServicePage, pk=service_id)
     print(booking_id)
