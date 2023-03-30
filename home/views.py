@@ -115,9 +115,10 @@ def signup(request):
     if request.method == 'POST':  # fetching the data from form
         username = request.POST["username"]
         firstname = request.POST["firstname"]
+        lasttname = request.POST["lastname"]
         email = request.POST["email"]
         password = request.POST["password"]
-        number = request.POST["number"]
+
 
         if User.objects.filter(email=email).exists():
             messages.info(request, 'Email already in use')
@@ -126,8 +127,7 @@ def signup(request):
             messages.info(request, 'Username already in use')
             return redirect('home')
         else:
-            user = User.objects.create_user(username=username, password=password, email=email, first_name=firstname,
-                                            phone_number=number)
+            user = User.objects.create_user(username=username, password=password, email=email, first_name=firstname, last_name=lasttname)
             user.save()
             messages.info(request, 'Successfully Registered. You can now login to your account.')
             return redirect('home')
