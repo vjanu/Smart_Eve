@@ -1,12 +1,15 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-
+from django.conf import settings
 from datetime import date
 import uuid
+# from django.contrib.auth.models import AbstractUser
+#
+#
+# class CustomUser(AbstractUser):
+#     phone_number = models.CharField(max_length=10)
 
-
-# Create your models here
 
 class Contact(models.Model):
     name = models.CharField(max_length=122)
@@ -70,6 +73,7 @@ class Showtime(models.Model):
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     showtime = models.ForeignKey(Showtime, on_delete=models.CASCADE)
+ #   user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     seats = models.IntegerField()
@@ -84,6 +88,8 @@ class Eventbooking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     event_page = models.ForeignKey(EventPage, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=10)
+    seats = models.IntegerField(default=1)
     date_booked = models.DateTimeField(auto_now_add=True)
     featured_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     payment_status = models.BooleanField(default=False)

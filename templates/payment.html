@@ -42,15 +42,26 @@
 {% block nav2 %}
 
   {% if user.is_authenticated %}
-    <!--img src="https://img.icons8.com/emoji/38/000000/waving-hand-emoji.png"/-->
-      <!--img src="/static/img/hello.jpeg" width="30%" height="35%"/--> Hello {{user.first_name}}
+   Hello {{user.first_name}}
   {% else %}
-    <!--img src="https://img.icons8.com/emoji/38/000000/waving-hand-emoji.png"/-->
-    <!--img src="/static/img/hello2.jpeg" width="30%" height="35%"/-->  Login
+   Login
   {% endif %}
 
 {% endblock nav2 %}
 
+{% block nav3link %}
+  {% if user.is_authenticated %}
+      /bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3link %}
+
+{% block nav3 %}
+  {% if user.is_authenticated %}
+    My Bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3 %}
 
 
 {% block nav4link %}
@@ -64,7 +75,7 @@
 {% block nav4 %}
 
   {% if user.is_authenticated %}
-    <!--img src="https://img.icons8.com/cute-clipart/38/000000/logout-rounded-left.png"/--> LogOut
+   LogOut
   {% endif %}
 
 {% endblock nav4 %}
@@ -120,7 +131,7 @@
     </div>
   </div>
   <hr class="my-4">
-  <label for="payment-method-selector">Choose your payment method:</label>
+  <label for="payment-method-selector">Choose vbn your payment method:</label>
   <div class="d-flex justify-content-center">
     <div class="payment-method">
       <input type="radio" name="payment-method" value="visa" id="visa" class="d-none">

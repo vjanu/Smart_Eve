@@ -30,7 +30,7 @@
 {% block nav2link %} 
 
   {% if user.is_authenticated %}
-    
+    /profile
   {% else %}
     /signup
   {% endif %}
@@ -49,7 +49,19 @@
 
 {% endblock nav2 %}
 
+{% block nav3link %}
+  {% if user.is_authenticated %}
+      /bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3link %}
 
+{% block nav3 %}
+  {% if user.is_authenticated %}
+    My Bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3 %}
 
 {% block nav4link %} 
 
@@ -171,15 +183,15 @@
    </div>
   {% for event in events %}
 
-  <div class="col-md-6 mb-3 d-flex">
+  <div class="col-md-4 mb-3 " style="height: fit-content">
   <div class="card" style="background-color: lightsteelblue;border-radius:32px;">
     <img src="https://source.unsplash.com/1600x900/?{{event.title}},{{event.tag}}" class="card-img-top" alt="...">
     <div class="card-body">
-      <h3 class="card-text" id="eventtag" style="text-align:center; color:orange;font-family: algerian;"><button class="btn btn-danger" style="height: 50px;border-radius:32px;width:120px;align-items:center;" type="submit">{{event.tag}}</button></h3>
-      <h2 class="card-title" id="eventtitle" style="color:darkblue;font-family:pt seriff;" >{{event.title}}</h2>
-      <h4 class="card-text" id="eventheader" style="color:darkblue;font-family:roboto;">{{event.header}}</h4>
-      <h3 class="card-text" id="eventschedule" style="color:red;font-family:pt seriff;padding-top:10px;">{{event.eventday}}, {{event.eventmonth}} {{event.eventdate}} {{event.eventyear}}</h3>
-      <h3 class="card-text" id="eventinfo" style="text-align:right; color:orange;font-family: sans seriff;padding-top:20px;padding-bottom:5px;"><a href="eventpage/{{event.id}}"><button class="btn btn-dark" style="height: 50px;width:120px;align-items:center;" type="submit">More Info</button></a></h3>
+      <h3 class="card-text" id="eventtag" style="text-align:center; color:orange;"><button class="btn btn-danger" style="height: 50px;border-radius:32px;width:120px;align-items:center;" type="submit">{{event.tag}}</button></h3>
+      <h3 class="card-title" id="eventtitle" style="color:darkblue;" >{{event.title}}</h3>
+      <h5 class="card-text" id="eventheader" style="color:darkblue;">{{event.header}}</h5>
+        <h6 class="card-text" id="eventschedule" style="color:red;padding-top:10px;"><strong>{{event.eventday}}, {{event.eventmonth}} {{event.eventdate}} {{event.eventyear}}</strong></h6>
+      <h3 class="card-text" id="eventinfo" style="text-align:right; color:orange;padding-top:20px;padding-bottom:5px;"><a href="eventpage/{{event.id}}"><button class="btn btn-dark" style="height: 50px;width:120px;align-items:center;" type="submit">More Info</button></a></h3>
     </div>
     </div>
   </div>

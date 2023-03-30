@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['eventzforu.herokuapp.com', '127.0.0.1']
 
 # Application definition
+# AUTH_USER_MODEL = 'home.CustomUser'
 
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
@@ -37,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social_django',
 
 ]
 
@@ -160,3 +160,7 @@ EMAIL_USE_TLS = True
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = '/'
+
+# settings.py
+
+

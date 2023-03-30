@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %} Movie | Event Booking {% endblock title %}
+{% block nav0 %}
+    Movies
+{% endblock nav0 %}
+{% block nav0link %}
+  /movie
+{% endblock nav0link %}
+{% block nav1link %}
+  /
+{% endblock nav1link %}
+
+{% block nav1 %}
+  View Events
+{% endblock nav1 %}
+
+{% block nav2link %}
+  {% if user.is_authenticated %}
+  {% else %}
+    /signup
+  {% endif %}
+{% endblock nav2link %}
+
+{% block nav2 %}
+  {% if user.is_authenticated %}
+    Welcome {{user.first_name}}
+  {% else %}
+    Login
+  {% endif %}
+{% endblock nav2 %}
+
+{% block nav3link %}
+  {% if user.is_authenticated %}
+      /bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3link %}
+
+{% block nav3 %}
+  {% if user.is_authenticated %}
+    My Bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3 %}
+
+{% block nav4link %}
+
+  {% if user.is_authenticated %}
+    /logout
+  {% endif %}
+
+{% endblock nav4link %}
+
+{% block nav4 %}
+
+  {% if user.is_authenticated %}
+     LogOut
+  {% endif %}
+
+{% endblock nav4 %}
+{% block body %}
+<div class="row mb-4">
+    <div class="col-lg-12 text-center p-4 text-black">
+        <h2  style="color: #008080">Your Bookings</h2>
+    </div>
+
+{% if booking_list %}
+<h2  style="color: #008080"> &nbsp;&nbsp;&nbsp;Movie Bookings</h2>
+<div class="col-lg-12 m-1 mx-auto">
+        <table class="table " >
+            <thead class="text-center"style="background: #f0f8ff;color: #000000" >
+              <tr>
+                <th scope="col">Service Booked</th>
+                <th scope="col">Booking Date</th>
+                <th scope="col">Cost</th>
+                  <th scope="col">Location</th>
+                <th scope="col">Booking Details</th>
+                <th scope="col">Cancel Booking</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for booking in booking_list %}
+              <tr class="text-center">
+                <td>{{booking.movie.title}}</td>
+                <td>{{booking.showtime.date}}, {{booking.showtime.time}}</td>
+                <td>{{booking.total_price}}</td>
+                  <td>{{booking.showtime.theater.location}}</td>
+                <td>
+                    <button type="submit" class="btn btn-info">
+                    <a href="{% url 'booking_detail' booking.id %}" class="text-white" style="text-decoration: none;">View Details</a>
+                  </button>
+                </td>
+                <form action="cancel_bookingmovie" method="post">
+                  {% csrf_token %}
+                  <td><button type="submit" class="btn btn-danger">Cancel Booking</button></td>
+                    <input type="hidden" name="booking_id" value="{{booking.pk}}">
+                </form>
+              </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+
+{% if eventbooking_list %}
+<h2 style="color: #008080"> &nbsp;&nbsp;&nbsp;Event Bookings</h2>
+   <div class="col-lg-12 m-1 mx-auto">
+        <table class="table " >
+            <thead class="text-center"style="background: #f0f8ff;color: #000000" >
+              <tr>
+                <th scope="col">Service Booked</th>
+                <th scope="col">Booking Date</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Seats Booked</th>
+                <th scope="col">Booking Details</th>
+                <th scope="col">Cancel Booking</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for booking in eventbooking_list %}
+              <tr class="text-center">
+                <td>{{booking.event_page.title}}</td>
+                <td>{{booking.date_booked}}</td>
+                <td>{{booking.featured_price}}</td>
+                <td>{{booking.seats}}</td>
+                <td>
+                    <button type="submit" class="btn btn-info">
+                    <a href="{% url 'booking_detail' booking.id %}" class="text-white" style="text-decoration: none;">View Details</a>
+                  </button>
+                </td>
+                <form action="cancel_bookingevent" method="post">
+                  {% csrf_token %}
+                  <td><button type="submit" class="btn btn-danger">Cancel Booking</button></td>
+                    <input type="hidden" name="booking_id" value="{{booking.pk}}">
+                </form>
+              </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+{% endif %}
+{% endblock %}

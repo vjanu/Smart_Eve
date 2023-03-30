@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% block style %}
+    <style>
+
+        .ticket-container {
+            width: 500px;
+            border: 2px solid black;
+            padding: 20px;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+            animation: zoom-in 0.3s ease-in-out forwards;
+        }
+        @keyframes zoom-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+        .ticket-header {
+            background-color: #E7E7E7;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px;
+            border-bottom: 2px solid black;
+        }
+
+        .ticket-table {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .ticket-table th {
+            font-weight: bold;
+            text-align: left;
+            padding: 10px 20px;
+            background-color: #F2F2F2;
+            border-bottom: 1px solid black;
+        }
+
+        .ticket-table td {
+            padding: 10px 20px;
+            border-bottom: 1px solid black;
+        }
+
+        .ticket-footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        footer{
+             position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+        }
+    </style>
+{% endblock %}
+{% block title %} Movie | Event Booking {% endblock title %}
+{% block nav0 %}
+    Movies
+{% endblock nav0 %}
+{% block nav0link %}
+  /movie
+{% endblock nav0link %}
+{% block nav1link %}
+  /
+{% endblock nav1link %}
+
+{% block nav1 %}
+  View Events
+{% endblock nav1 %}
+
+{% block nav2link %}
+
+  {% if user.is_authenticated %}
+
+  {% else %}
+    /signup
+  {% endif %}
+
+{% endblock nav2link %}
+
+{% block nav2 %}
+
+  {% if user.is_authenticated %}
+    Welcome {{user.first_name}}
+  {% else %}
+    Login
+  {% endif %}
+
+{% endblock nav2 %}
+
+{% block nav3link %}
+  {% if user.is_authenticated %}
+      /bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3link %}
+
+{% block nav3 %}
+  {% if user.is_authenticated %}
+    My Bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3 %}
+
+{% block nav4link %}
+
+  {% if user.is_authenticated %}
+    /logout
+  {% endif %}
+
+{% endblock nav4link %}
+
+{% block nav4 %}
+
+  {% if user.is_authenticated %}
+     LogOut
+  {% endif %}
+
+{% endblock nav4 %}
+{% block body %}
+    <br>
+    <div class="animated flipInY" style="margin-left: 45%;">
+      <i class="fas fa-check-circle fa-5x text-success mb-3"></i>
+    </div>
+    <div class="ticket-container">
+        <div class="ticket-header">Booking Confirmation</div>
+        <table class="ticket-table">
+            <tr>
+            <th>Booking Date:</th>
+            {% if tag == 'movie' %}
+                <td>{{ booking.showtime }}</td>
+            {% else %}
+                <td>{{ booking.date_booked }}</td>
+            {% endif %}
+           </tr>
+            <tr>
+                <th>Name:</th>
+                {% if tag == 'movie' %}
+                <td>{{ booking.user }}</td>
+                {% else %}
+                <td>{{ booking.name }}</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Service:</th>
+                {% if tag == 'movie' %}
+                <td>{{ booking.movie }}</td>
+                {% else %}
+                <td>{{ booking.event_page.title }}</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Email:</th>
+                {% if tag == 'movie' %}
+                <td>{{ booking.user.email }}</td>
+                {% else %}
+                <td>{{ user.email }}</td>
+                {% endif %}
+
+            </tr>
+             {% if tag == 'event' %}
+             <tr>
+             <th> Phone Number:</th>
+              <td>{{ booking.phone_number }}</td>
+             </tr>
+             {% endif %}
+
+              <tr>
+                <th>Seats:</th>
+                <td>{{ booking.seats }}</td>
+
+              </tr>
+            <tr>
+                <th>Price:</th>
+                 {% if tag == 'movie' %}
+                <td>{{ booking.total_price }}$</td>
+                {% else %}
+                <td>{{ booking.featured_price }}$</td>
+                {% endif %}
+
+            </tr>
+        <tr>
+                <th>Payment Status:</th>
+                 {% if booking.payment_status == 0 %}
+                <td>Pending</td>
+                {% else %}
+                <td>Completed</td>
+                {% endif %}
+
+            </tr>
+        </table>
+
+                {% if tag == 'movie' %}
+                <div class="ticket-footer">Thank you for booking {{ booking.movie.title }}</div> <br>
+                {% else %}
+                <div class="ticket-footer">Thank you for booking {{ booking.event_page.title }}</div> <br>
+                {% endif %}
+
+    <a href="{% url 'booking_pdf' booking.id %}">
+    <button type="button" class="btn btn-primary" class="print-button">Print PDF</button>
+</a>
+
+    </div>
+    <br>
+    <script>
+const bookingConfirmation = document.querySelector('.ticket-container');
+bookingConfirmation.style.visibility = 'visible';
+
+</script>
+{% endblock %}
+

@@ -246,7 +246,7 @@ p.text span {
 {% block nav2link %}
 
   {% if user.is_authenticated %}
-
+   /profile
   {% else %}
     /signup
   {% endif %}
@@ -263,6 +263,19 @@ p.text span {
 
 {% endblock nav2 %}
 
+{% block nav3link %}
+  {% if user.is_authenticated %}
+      /bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3link %}
+
+{% block nav3 %}
+  {% if user.is_authenticated %}
+    My Bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3 %}
 
 
 
@@ -290,14 +303,14 @@ p.text span {
     <div class="body-heading" >
     <h1>{{ movie.title }}</h1>
     </div>
-<div class="wrapper">
+      <div class="wrapper">
       <div class="red-tri"></div>
 
       <div class="blue-tri"></div>
 
       <div class="yellow-tri"></div>
       <div class="pink-tri"></div>
-  <div class="row" >
+      <div class="row" >
       <div class = "col-md-5" style="padding-left: 5%;">
 
           <div class="carousel-inner">

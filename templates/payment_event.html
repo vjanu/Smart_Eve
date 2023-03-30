@@ -1,5 +1,68 @@
 {% extends 'base.html' %}
+{% block title %} Movie | Event Booking {% endblock title %}
+{% block nav0 %}
+    Movies
+{% endblock nav0 %}
+{% block nav0link %}
+  /movie
+{% endblock nav0link %}
+{% block nav1link %}
+  /
+{% endblock nav1link %}
 
+{% block nav1 %}
+  View Events
+{% endblock nav1 %}
+
+{% block nav2link %}
+
+  {% if user.is_authenticated %}
+
+  {% else %}
+    /signup
+  {% endif %}
+
+{% endblock nav2link %}
+
+{% block nav2 %}
+
+  {% if user.is_authenticated %}
+    Welcome {{user.first_name}}
+  {% else %}
+    Login
+  {% endif %}
+
+{% endblock nav2 %}
+
+{% block nav3link %}
+  {% if user.is_authenticated %}
+      /bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3link %}
+
+{% block nav3 %}
+  {% if user.is_authenticated %}
+    My Bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3 %}
+
+{% block nav4link %}
+
+  {% if user.is_authenticated %}
+    /logout
+  {% endif %}
+
+{% endblock nav4link %}
+
+{% block nav4 %}
+
+  {% if user.is_authenticated %}
+     LogOut
+  {% endif %}
+
+{% endblock nav4 %}
 {% block head %}
   <style>
     body {
@@ -85,11 +148,11 @@
   <div id="card-errors" role="alert"></div>
 </div>
 
-<input type="hidden" name="total_amount" value="{{ booking.featured_price }}">
+<input type="hidden" name="total_amount" value="{{ total_amount }}">
 <input type="hidden" name="event_id" value="{{ booking.event_page.id }}">
 <input type="hidden" name="booking_id" value="{{ booking.id }}">
 <input type="hidden" name="stripeToken" value="pk_test_12345">
-<button id="submit-button" class="btn btn-primary" type="submit">Pay ${{ booking.featured_price|floatformat:2 }}</button>
+<button id="submit-button" class="btn btn-primary" type="submit">Pay ${{ total_amount|floatformat:2 }}</button>
 
   </form>
 </center>
@@ -111,7 +174,7 @@
         },
         body: JSON.stringify({
             print(total_amount,event_id,booking_id,stripeToken)
-          total_amount: '{{ booking.featured_price }}',
+          total_amount: '{{ total_amount }}',
           booking:{{ booking }},
           event_id: '{{ booking.event_page.id }}',
           booking_id: '{{ booking.id }}',

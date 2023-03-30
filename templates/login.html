@@ -31,15 +31,15 @@
 
       <div class="social-media">
         <ul>
-          <li><a href="{% url "social:begin" "google-oauth2" %}"><img src="static/img/google.jpg"></a></li>
-          <li><a href="{% url 'social:begin' 'facebook' %}"><img src="static/img/facebook.png"></a></li>
-          <li><a href="{% url 'social:begin' 'github' %}"><img src="static/img/github.png"></a></li>
+          <li><a href=""><img src="static/img/google.jpg"></a></li>
+          <li><a href=""><img src="static/img/facebook.png"></a></li>
+          <li><a href=""><img src="static/img/github.png"></a></li>
         </ul>
       </div>
     </div>
     </form>
 
-    <div class="sub-cont">
+    <div class="sub-cont" >
       <div class="img">
         <div class="img-text m-up">
           <h2>New here?</h2>
@@ -58,8 +58,8 @@
           <span class="m-in" style="color:white;">Sign In</span>
         </div>
       </div>
-      <form method="POST" action="signup">
-      <div class="form sign-up">
+      <form method="POST" action="signup" >
+      <div class="form sign-up" >
       {% csrf_token %}
         <h2>Sign Up</h2>
         <label>
@@ -69,6 +69,10 @@
         <label>
           <span>User Name</span>
           <input type="text" id="username" name="username">
+        </label>
+           <label>
+          <span>Contact Number</span>
+          <input type="tel" id="number" name="number" pattern="[0-9]{10}" required>
         </label>
         <label>
           <span>Email</span>

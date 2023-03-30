@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    User Profile
+{% endblock title %}
+{% block nav0 %}
+    Movies
+{% endblock nav0 %}
+{% block nav0link %}
+  /movie
+{% endblock nav0link %}
+{% block nav1link %}
+  /
+{% endblock nav1link %}
+
+{% block nav1 %}
+  View Events
+{% endblock nav1 %}
+
+{% block nav2link %}
+  {% if user.is_authenticated %}
+  {% else %}
+    /signup
+  {% endif %}
+{% endblock nav2link %}
+
+{% block nav2 %}
+  {% if user.is_authenticated %}
+    Welcome {{user.first_name}}
+  {% else %}
+    Login
+  {% endif %}
+{% endblock nav2 %}
+
+{% block nav3link %}
+  {% if user.is_authenticated %}
+      /bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3link %}
+
+{% block nav3 %}
+  {% if user.is_authenticated %}
+    My Bookings
+  {% else %}
+  {% endif %}
+{% endblock nav3 %}
+
+{% block nav4link %}
+
+  {% if user.is_authenticated %}
+    /logout
+  {% endif %}
+
+{% endblock nav4link %}
+
+{% block nav4 %}
+
+  {% if user.is_authenticated %}
+     LogOut
+  {% endif %}
+
+{% endblock nav4 %}
+{% block style %}
+    <style>
+
+    footer{
+             position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+        }
+    .table {
+    border: 1px solid #dee2e6;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+    </style>
+{% endblock %}
+{% block body %}
+<br>
+    {% if user.is_authenticated %}
+
+        <div class="container emp-profile">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-img">
+                            <img style="height: 350px" src="https://avatars.dicebear.com/v2/male/157b66afeb448bc89c7f73f9b152d4a9.svg"
+                                 alt=""/>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-top:50px;">
+    <div class="tab-content profile-tab" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <td><strong>Username:</strong></td>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Name:</strong></td>
+                        <td>{{ user.first_name }}  {{ user.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email:</strong></td>
+                        <td>{{ user.email }}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+                </div>
+            </form>
+        </div>
+
+    {% endif %}
+</br>
+{% endblock body %}
