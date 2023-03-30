@@ -89,7 +89,8 @@ def book_showtime(request, showtime_id):
 def index(request):
     events = EventPage.objects.all()
     contact = Contact.objects.values()
-    return render(request, 'index.html', {'events': events, 'contact': contact})
+    tags = EventPage.objects.values_list('tag', flat=True).distinct()
+    return render(request, 'index.html', {'events': events, 'contact': contact, 'tags': tags})
 
 
 def login(request):

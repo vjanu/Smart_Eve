@@ -165,10 +165,21 @@
 <div class="canvas-container">
         <canvas id="canv" width="32" height="32">
 </div>
-    <form class="form-inline my-5 my-lg-0" style="margin-right:auto; margin-left:auto; height: 100px;padding-top:20px;">
-          <input class="form-control mr-sm-2" style="height: 50px; color: red;width: 500px;border-radius:32px;" type="search" placeholder="Search event categories. Eg: Music, Sports, Dance, Festivals..." aria-label="Search">
-          <button class="btn btn-warning my-2 my-sm-0" style="height: 50px;border-radius:32px;width:100px;" type="submit">Search</button>
-    </form>
+{#    <form class="form-inline my-5 my-lg-0" style="margin-right:auto; margin-left:auto; height: 100px;padding-top:20px;">#}
+{#          <input class="form-control mr-sm-2" style="height: 50px; color: red;width: 500px;border-radius:32px;" type="search" placeholder="Search event categories. Eg: Music, Sports, Dance, Festivals..." aria-label="Search">#}
+{#          <button class="btn btn-warning my-2 my-sm-0" style="height: 50px;border-radius:32px;width:100px;" type="submit">Search</button>#}
+{#    </form>#}
+<div class="form-group">
+  <label for="event-filter">Filter by Event Type</label>
+  <select id="event-filter" class="form-control bg-light rounded-pill">
+    <option value="">All events</option>
+    {% for tag in tags %}
+    <option value="{{ tag }}">{{ tag }}</option>
+    {% endfor %}
+  </select>
+{#  <small id="filter-help" class="form-text text-muted">Filter events by selecting an event type</small>#}
+</div>
+
     <br><br>
     <h1 class="text-center mb-3" style="color: darkblue; font-family:algerian;"> View Upcoming Events </h1>
     <br>
@@ -181,6 +192,8 @@
        <div class="star" style="top: 10%; left: 50%;"></div>
        <div class="star" style="top: 40%; left: 90%;"></div>
    </div>
+
+
   {% for event in events %}
 
   <div class="col-md-4 mb-3 " style="height: fit-content">
@@ -199,6 +212,21 @@
   {% endfor %}
  </div>
 </div>
+    <script>
+  const filterSelect = document.querySelector('#event-filter');
+  const eventCards = document.querySelectorAll('.card');
+
+  filterSelect.addEventListener('change', (e) => {
+    const selectedTag = e.target.value;
+    eventCards.forEach(card => {
+      if (selectedTag === '' || card.querySelector('#eventtag').textContent.trim() === selectedTag) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+</script>
     <script src="static/js/script2.js"></script>
     <script type="text/javascript">
     (function(d, m){
