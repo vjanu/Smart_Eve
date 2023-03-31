@@ -2,11 +2,11 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="static/css/style_nav.css">
-<link rel="stylesheet" type="text/css" href="static/css/style_event.css">
+<!--link rel="stylesheet" type="text/css" href="static/css/style_event.css"-->
 
 {% block head %}
   {{ block.super }}
-     <link rel="stylesheet" type="text/css" href="{% static 'css/style_event.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style_event.css' %}">
 {% endblock %}
 {% block title %} Home {% endblock title %}
 {% block nav0link %}
@@ -152,12 +152,7 @@
 </div>
 <script src="static/js/script2.js"></script>
 <script>
-const gradient = document.querySelector(".gradient");
 
-function onMouseMove(event) {
-  gradient.style.backgroundImage = 'radial-gradient(at ' + event.clientX + 'px ' + event.clientY + 'px, rgba(159,0,191,.9) 0, #4D4FA7 70%)';
-}
-document.addEventListener("mousemove", onMouseMove);
 
 </script>
 </body>
